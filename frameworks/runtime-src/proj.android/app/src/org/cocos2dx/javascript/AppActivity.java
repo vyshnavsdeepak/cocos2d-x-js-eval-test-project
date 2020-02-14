@@ -27,8 +27,10 @@ package org.cocos2dx.javascript;
 import android.os.Bundle;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
+import org.cocos2dx.lib.Cocos2dxJavascriptJavaBridge;
 
 public class AppActivity extends Cocos2dxActivity {
+    public boolean firstLaunch = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.setEnableVirtualButton(false);
@@ -44,5 +46,23 @@ public class AppActivity extends Cocos2dxActivity {
 
         // DO OTHER INITIALIZATION BELOW
         
+    }
+    
+    @Override
+    protected void onResume() {
+        /***/
+        super.onResume();
+
+        if (firstLaunch == false) {
+            runOnGLThread(new Runnable() {
+                @Override
+                public void run() {
+                    String jsCode = "navigator.setOnLine(true)";
+                    Cocos2dxJavascriptJavaBridge.evalStringInCocosThread(jsCode);
+                }
+            });
+        }
+
+        firstLaunch = false;
     }
 }

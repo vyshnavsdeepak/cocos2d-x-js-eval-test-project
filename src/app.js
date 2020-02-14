@@ -67,3 +67,12 @@ var HelloWorldScene = cc.Scene.extend({
     }
 });
 
+
+navigator = {
+    onLine: true,
+    setOnLine: function (state) {
+        'use strict';
+        cc.log("JSTest Navigator status set to " + state);
+    
+    }
+  };  
