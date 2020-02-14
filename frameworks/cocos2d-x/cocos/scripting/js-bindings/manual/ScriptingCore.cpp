@@ -559,6 +559,20 @@ bool ScriptingCore::evalString(const char *string)
     return evalString(string, &retVal);
 }
 
+void ScriptingCore::evalStringInCocosThread(const char *string)
+{
+    auto scheduler = cocos2d::Director::getInstance()->getScheduler();
+        LOGD("hashcube test evalStringInCocosThread");
+
+    LOGD("hashcube test add string: %s", string);
+    scheduler->performFunctionInCocosThread([this, string](){
+        LOGD("hashcube test performFunctionInCocosThread");
+        LOGD("hashcube test performing string: %s", string);
+
+        evalString(string);
+    });
+}
+
 void ScriptingCore::start()
 {
     _engineStartTime = std::chrono::steady_clock::now();
